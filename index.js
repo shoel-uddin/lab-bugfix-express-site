@@ -7,12 +7,6 @@ const app = express();
 const server = http.createServer(app);
 
 
-// catch all
-app.get('*', (req, res) => {
-    res.status(404).send(`
-      <h1>Page not found</h1>
-    `);
-});
 
 
 
@@ -25,12 +19,32 @@ app.get('/', (req, res) => {
 });
 
 app.get('/hello', (req, res) => {
-    req.send('Hello!');
-});
+    res.send(`
+        Hello!
+        <ul>
+            <li><a href="/hello/John">John</li>
+            <li><a href="/hello/Mike">Mike</li>
+            <li><a href="/hello/Sussi">Sussi</li>
+        </ul>
+    `);
+})
 
 app.get('/hello/:whom', (req, res) => {
     const whom = req.params.whom;
-    res.send(`Hello, {whom}!`);
+    res.send(`
+    Hello, ${whom}!
+    <br>
+    <a href="/hello">Back</a>
+    
+    `);
+});
+
+
+// catch all
+app.get('*', (req, res) => {
+    res.status(404).send(`
+      <h1>Page not found</h1>
+    `);
 });
 
 server.listen(PORT, HOST, () => {
